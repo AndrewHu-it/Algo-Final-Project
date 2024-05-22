@@ -10,7 +10,7 @@ public class K_Means {
     public static DistanceType distance = DistanceType.EUCLIDEAN;
 
 
-    public int calculate_distance(Image image_1, Image image_2){
+    public static int calculate_distance(Image image_1, Image image_2){
         switch (distance) {
             case HAMMING:
                 return Hamming_Distance(image_1, image_2);
@@ -28,10 +28,20 @@ public class K_Means {
     }
 
     public static void categorize_images(Image[] images){
-        //TODO
-        /*
-        * Go through all of the images an match them with the centroid that is closest, using the appropriate distance method,
-        * */
+        for (int i = 0; i < images.length; i++){
+            Image current_image = images[i];
+            int smallest_centroid_distance = Integer.MAX_VALUE;
+            int index_of_centroid = -1;
+            for (int j = 0; j < clusters.size(); j ++){
+                Cluster current_cluster = clusters.get(j);
+                int distance = calculate_distance(current_image, current_cluster.centroid());
+                if (distance < smallest_centroid_distance){
+                    smallest_centroid_distance = distance;
+                    index_of_centroid = j;
+                }
+            }
+            clusters.get(index_of_centroid).add_image_to_cluster(current_image);
+        }
     }
 
     public static void initialize_centroids(){
@@ -65,8 +75,8 @@ public class K_Means {
 
     public static double percentage_accuracy(Image[] images, String filename){
         int[] answers = new int[0];
+        //TODO VERIFY THAT THIS IS SUPPOSED TO BE PARLLEL ARRAYS.
         try{
-            //TODO:: Is this like a parllel array with the train-images???
             answers = Image.readLabels(filename);
         } catch (Exception e){
             System.out.println("Invalid filename: " + filename);
@@ -128,7 +138,7 @@ public class K_Means {
         * */
         initialize_centroids();
 
-        //TODO: Add each of the images to the cluster
+        //TODO: Add each of the images to a cluster
         /*
         * We can do this using an additional method that takes in an image and the cluster array
         * It will than figure out which cluster the image most likely belongs in.
@@ -187,43 +197,42 @@ public class K_Means {
 
 
     //--------------===<<DISTANCE METHODS>>===-----------------
-    private int L1_Distance(Image image_1, Image image_2){
+    private static int L1_Distance(Image image_1, Image image_2){
         //TODO
         /*
          * Calculates the L1_distance*/
         return -1;
     }
 
-
-    private int L3_Distance(Image image_1, Image image_2){
+    private static int L3_Distance(Image image_1, Image image_2){
         //TODO
         /*
          * Calculates the L3_distance*/
         return -1;
     }
 
-    private int Cosine_Distance(Image image_1, Image image_2){
+    private static int Cosine_Distance(Image image_1, Image image_2){
         //TODO
         /*
          * Calculates the Costine_distance*/
         return -1;
     }
 
-    private int Euclidean_Distance(Image image_1, Image image_2){
+    private static int Euclidean_Distance(Image image_1, Image image_2){
         //TODO
         /*
          * Calculates the Euclidean_Distance*/
         return -1;
     }
 
-    private int Manhattan_Distance(Image image_1, Image image_2){
+    private static int Manhattan_Distance(Image image_1, Image image_2){
         //TODO
         /*
          * Calculates the Manhattan_Distance*/
         return -1;
     }
 
-    private int Hamming_Distance(Image image_1, Image image_2) {
+    private static int Hamming_Distance(Image image_1, Image image_2) {
         //TODO
         /*
          * Calculates the Hamming_Distance*/
