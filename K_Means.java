@@ -106,9 +106,6 @@ public class K_Means {
 
         Viewer.invoke(images, "images", new Viewer.Attributes());
 
-
-
-        //hello how are you
     }
 
 
