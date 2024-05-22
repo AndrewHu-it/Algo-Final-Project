@@ -63,24 +63,21 @@ public class K_Means {
 
     }
 
-    public static double percentage_accuracy(String filename){
+    public static double percentage_accuracy(Image[] images, String filename){
+        int[] answers = new int[0];
         try{
             //TODO:: Is this like a parllel array with the train-images???
-            int[] answers = Image.readLabels(filename);
+            answers = Image.readLabels(filename);
         } catch (Exception e){
             System.out.println("Invalid filename: " + filename);
         }
         int numCorrect = 0;
-        int total = 0;
-
-        //TODO:
-        /*
-        * Goes through and calculates the total number of correct and total.
-        * Im not sure how the implementation works here (is it parllel arrays?)
-        * */
-
-
-
+        int total = images.length;
+        for (int i = 0; i < images.length; i ++){
+            if (answers[i] == images[i].label()){
+                numCorrect++;
+            }
+        }
         return numCorrect/(double)total;
     }
 
@@ -160,7 +157,7 @@ public class K_Means {
         /*
         * Go through all of the images in the MNIST set,
         * */
-        double accuracy = percentage_accuracy("train-labels");
+        double accuracy = percentage_accuracy(images, "train-labels");
 
 
 
