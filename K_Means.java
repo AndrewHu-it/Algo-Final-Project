@@ -53,7 +53,6 @@ public class K_Means {
     }
 
     public static void user_classify(){
-        //First make an array of the centroids:
         Image[] centroids = new Image[10];
         for (int i = 0; i < clusters.size(); i++){
             centroids[i] = clusters.get(i).centroid();
