@@ -79,7 +79,7 @@ public class K_Means {
         * Im not sure how the implementation works here (is it parllel arrays?)
         * */
 
-        
+
 
         return numCorrect/(double)total;
     }
