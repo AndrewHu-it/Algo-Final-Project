@@ -1,0 +1,54 @@
+public int distance (Item a, Item b) {
+	// Various distance metrics to consider:
+	//   Hammning distance
+	//   Manhatten distance
+	//   Euclidean distance
+	//   Cosine distance
+	//   L_k norm (esp k=3, k=4)
+}
+
+public int reclassify(Item[] items, Item[] centroids) {
+	// Assign each item to a cluster
+	// Each cluster is represented by a canonical item
+	// Use the centroid of the cluster as its canonical item
+	for (Item item : items) {
+		int previous = getCluster(item);
+		int current = nearest(item, centroids);
+		if (current != previous) updates++;
+		setCluster(item, k);
+	}
+	return updates;
+}
+
+public int nearest(Item item, Item[] centroids) {
+	// Find the cluster (centroid) to which this item is nearest
+	int min = INFINITY;
+	int index = -1;
+	for (int i = 0; i < centroids.length; i++) {
+		int d = distance(item, centroids[i]);
+		if (d < min) {
+			min = d;
+			index = i;
+		}
+	}
+	return index;
+}
+
+public Item centroid(int cluster) {
+	for (Item : allItemsInCluster(cluster)) {
+		compute the average value of each attribute
+	}
+	return new Item(using averate value of each attribute);
+}
+
+public void kMeans(Item[] items, int k) {
+	Item[] centroids = createInitialCentroids(items, k);
+	for (Item item : items) setCluster(null);
+	do {
+		updates = reclassify(items, centroids);
+		for (int i = 0; i < k; i++) {
+			centroid[i] = centroid(cluster(i));
+		}
+	} while (updates > 0);
+	// Each item is now labeled with its cluster
+}

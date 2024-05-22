@@ -1,0 +1,8 @@
+Question: How do we get the ball rolling (need to get our initial centroids for each group):
+1. Assign all images at random --> should work/converge
+3. Could just select 10 random ones. 
+2. Want to get 10 different intial conditions. Want them to be as different as possible at the beginning. 
+
+
+
+
