@@ -44,6 +44,24 @@ public class K_Means {
 
     }
 
+    public static void k_means(Image[] images){
+        //TODO:
+        /*
+        * Returns the clusters all sorted with the proper images in each one
+        * */
+
+    }
+
+    public static void user_classify(){
+        //First make an array of the centroids:
+        Image[] centroids = new Image[10];
+        for (int i = 0; i < clusters.size(); i++){
+            centroids[i] = clusters.get(i).centroid();
+        }
+        Viewer.invoke(centroids, "User Classification", new Viewer.Attributes());
+    }
+
+
 
 
 
@@ -101,6 +119,25 @@ public class K_Means {
         * */
         Image[] images = Image.readImages("test-images");
         categorize_images(images);
+
+        //TODO: Compute K-Means
+        /*
+        *the result of the k-means is all of the clusters with the images placed in them properly.
+        * */
+        k_means(images);
+
+
+        //TODO: Label each of the clusters the correct value
+        /*
+        * Display the gui, and display each of the centroids (user will then label them)
+        * Invoke the classify
+        * */
+        user_classify();
+
+        //TODO: Calculate Accuracy
+        /*
+        *
+        * */
 
 
 
