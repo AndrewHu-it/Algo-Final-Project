@@ -42,6 +42,8 @@ public class Cluster implements Cluster_Interface {
                 centroidPixels[row][col] /= clusterSize;
             }
         }
+        
+        return new Image(centroidPixels);
     }
 
     public Image centroid() {
