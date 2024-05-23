@@ -75,10 +75,6 @@ public class K_Means {
     }
 
     public static double percentage_accuracy(Image[] images, String filename){
-        //TODO VERIFY THAT THIS IS SUPPOSED TO BE PARLLEL ARRAYS.
-        /*
-        * We need to verify that these truely are 'parllel arrays' between 
-        * */
         int[] answers = new int[0];
         try{
             answers = Image.readLabels(filename);
