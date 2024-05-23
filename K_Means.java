@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.lang.Math
 
 public class K_Means {
 
@@ -201,45 +202,71 @@ public class K_Means {
 
     //--------------===<<DISTANCE METHODS>>===-----------------
     private static int L1_Distance(Image image_1, Image image_2){
-        //TODO
-        /*
-         * Calculates the L1_distance*/
-        return -1;
+        int distance = 0;
+        for (int row = 0; row < image_1.rows(); row++) {
+            for (int col = 0; col < image_1.columns(); col++) {
+                distance += Math.abs(image_1.get(row, col) - image_2.get(row, col));
+            }
+        }
+        return distance;
     }
 
     private static int L3_Distance(Image image_1, Image image_2){
-        //TODO
-        /*
-         * Calculates the L3_distance*/
-        return -1;
+        int distance = 0;
+        for (int row = 0; row < image_1.rows(); row++) {
+            for (int col = 0; col < image_1.columns(); col++) {
+                distance += Math.pow(Math.abs(image_1.get(row, col) - image_2.get(row, col)), 3);
+            }
+        }
+        return distance;
     }
 
     private static int Cosine_Distance(Image image_1, Image image_2){
-        //TODO
-        /*
-         * Calculates the Costine_distance*/
-        return -1;
+        double dotProduct = 0;
+        double normA = 0;
+        double normB = 0;
+        for (int row = 0; row < image_1.rows(); row++) {
+            for (int col = 0; col < image_1.columns(); col++) {
+                int pixelA = image_1.get(row, col);
+                int pixelB = image_2.get(row, col);
+                dotProduct += pixelA * pixelB;
+                normA += Math.pow(pixelA, 2);
+                normB += Math.pow(pixelB, 2);
+            }
+        }
+        return (int) (1 - dotProduct / (Math.sqrt(normA) * Math.sqrt(normB)));
     }
 
     private static int Euclidean_Distance(Image image_1, Image image_2){
-        //TODO
-        /*
-         * Calculates the Euclidean_Distance*/
-        return -1;
+        int distance = 0;
+        for (int row = 0; row < image_1.rows(); row++) {
+            for (int col = 0; col < image_1.columns(); col++) {
+                distance += Math.pow(image_1.get(row, col) - image_2.get(row, col), 2);
+            }
+        }
+        return (int) Math.sqrt(distance);
     }
 
     private static int Manhattan_Distance(Image image_1, Image image_2){
-        //TODO
-        /*
-         * Calculates the Manhattan_Distance*/
-        return -1;
+        int distance = 0;
+        for (int row = 0; row < image_1.rows(); row++) {
+            for (int col = 0; col < image_1.columns(); col++) {
+                distance += Math.abs(image_1.get(row, col) - image_2.get(row, col));
+            }
+        }
+        return distance;
     }
 
     private static int Hamming_Distance(Image image_1, Image image_2) {
-        //TODO
-        /*
-         * Calculates the Hamming_Distance*/
-        return -1;
+        int distance = 0;
+        for (int row = 0; row < image_1.rows(); row++) {
+            for (int col = 0; col < image_1.columns(); col++) {
+                if (image_1.get(row, col) != image_2.get(row, col)) {
+                    distance++;
+                }
+            }
+        }
+        return distance;
     }
 
 
