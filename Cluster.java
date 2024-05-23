@@ -20,11 +20,28 @@ public class Cluster implements Cluster_Interface {
     }
 
     private Image calculate_centroid() {
-        //TODO: Calculate the centroid based on all the images in the cluster
-        /*
-        * returns the image that is the average of all of the images in the cluster
-        * */
-        return null;
+        if (cluster.isEmpty()) {
+            return null; 
+        }
+
+        int rows = cluster.get(0).rows();
+        int columns = cluster.get(0).columns();
+        byte[][] centroidPixels = new byte[rows][columns];
+        
+        for (Image image : cluster) {
+            for (int row = 0; row < rows; row++) {
+                for (int col = 0; col < columns; col++) {
+                    centroidPixels[row][col] += image.get(row, col);
+                }
+            }
+        }
+
+        int clusterSize = cluster.size();
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < columns; col++) {
+                centroidPixels[row][col] /= clusterSize;
+            }
+        }
     }
 
     public Image centroid() {
