@@ -1,8 +1,13 @@
 Question: How do we get the ball rolling (need to get our initial centroids for each group):
 1. Assign all images at random --> should work/converge
 3. Could just select 10 random ones. 
-2. Want to get 10 different intial conditions. Want them to be as different as possible at the beginning. 
+2. Want to get 10 different intial conditions. Want them to be as different as possible at the beginning.
 
 
 
+Multiple clusters:
+- People write digits in different ways, so we can have multiple clusters for the same 'digit'. (EX: fives are written in diferetn ways)
+
+Debugging Notes:
+- Somehow the centroids are all turnign to 0s.
 
