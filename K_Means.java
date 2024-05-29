@@ -61,7 +61,6 @@ public class K_Means {
 
 
     public static int reclassify(Image[] images){
-        System.out.println("Reclassifying all of the images!");
         int num_swaps = 0;
 
         ArrayList<ArrayList<Image>> new_image_clusters = new ArrayList<>(k);
@@ -148,8 +147,9 @@ public class K_Means {
             num_cycles++;
 
         } while (num_updates > 0 && (num_cycles < max_steps));
-        System.out.println(num_updates);
-
+        if (updates){
+            System.out.println("We itereated k means " + num_cycles + " times");
+        }
     }
 
 
@@ -258,8 +258,10 @@ public class K_Means {
                     break;
                 case "-STEPS":
                     max_steps = Integer.parseInt(args[++i]);
+                    break;
                 case "-K":
                     k = Integer.parseInt(args[++i]);
+                    break;
                 case "-K_RANDOM":
                     centroid_type = Centroid_Type.K_RANDOM;
                     break;
