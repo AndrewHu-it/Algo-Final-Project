@@ -6,6 +6,41 @@ import java.lang.Math;
 
 public class K_Means {
 
+    /*
+    * /*=============<<< PROGRAM PARAMETERS >>>==============
+
+            DISTANCE METRICS:
+            -hamming
+            -manhattan
+            -euclidean
+            -cosine
+            -l3
+
+            MAX ITERATIONS OF K MEANS:
+            -steps <int>
+
+            NUMBER OF CATEGORIES (K):
+            -k <int>
+
+            CENTROID INITIALIZATION METHOD:
+            -k_random
+            -k_different
+
+            DYNAMICALLY INCREASE CLUSTER COUNT:
+            -dynamic
+
+            SYSTEM UPDATES DURING RUN:
+            -updates
+
+         ======================================================*/
+
+
+
+
+
+
+
+
     public enum DistanceType {HAMMING, MANHATTAN, EUCLIDEAN, COSINE, L3 }
     public enum Centroid_Type {K_RANDOM, K_DIFFERENT}
 
@@ -20,7 +55,7 @@ public class K_Means {
 
 
 
-    public static final int TEST_SEED = 1;
+    public static final int TEST_SEED = 100;
     public static Random random = new Random(TEST_SEED);
     public static double random() { return random.nextDouble(); } // In range [0.0, 1.0)
 
@@ -97,7 +132,6 @@ public class K_Means {
             System.out.println("Centroid Initialization has just been completed");
         }
 
-        //TODO We need to test this method
         initially_categorize_images(images);
         if (updates){
             System.out.println("All images successfully initially categorized. \n Now begin K-Means process");
@@ -115,15 +149,6 @@ public class K_Means {
 
         } while (num_updates > 0 && (num_cycles < max_steps));
         System.out.println(num_updates);
-
-
-        //OKAY SOMEHOW THE CENTROIDS ARE ALL TURNING TO 0.
-        for (Cluster c : clusters){
-            System.out.println(c.centroid().toString());
-        }
-
-        //Somehow the centroid is being turned to all 0s.
-
 
     }
 
@@ -174,7 +199,6 @@ public class K_Means {
         }
 
     }
-
 
 
 
@@ -255,11 +279,6 @@ public class K_Means {
         }
 
 
-        //TODO::::::::::::::::::::::::::::::
-        //TODO: We Need to figure out how to get a smaller set of images to work
-        // with because right now it takes forever to test anything
-
-
         for (int i = 0; i < k; i++) {
 
             clusters.add(new Cluster());
@@ -269,18 +288,16 @@ public class K_Means {
         Image[] images = Image.readImages("train-images");
 
 
-        //TODO: Verify
+        //Works, but very poorly
         k_means(images, max_steps);
 
 
-        //TODO: Verify
+        //User labels
         user_classify();
 
 
-        //------<<AT THIS POINT THE TRAINING IS DONE>>-----------
-
-        //TODO: Verify
         double accuracy = percentage_accuracy(images, "train-labels");
+        System.out.println(accuracy);
 
 
         //TODO: File output:

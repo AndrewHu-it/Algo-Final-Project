@@ -1,0 +1,26 @@
+/*=============<<< PROGRAM PARAMETERS >>>==============
+
+DISTANCE METRICS:
+-hamming
+-manhattan
+-euclidean
+-cosine
+-l3
+
+MAX ITERATIONS OF K MEANS:
+-steps <int>
+
+NUMBER OF CATEGORIES (K):
+-k <int>
+
+CENTROID INITIALIZATION METHOD:
+-k_random
+-k_different
+
+DYNAMICALLY INCREASE CLUSTER COUNT:
+-dynamic
+
+SYSTEM UPDATES DURING RUN:
+-updates
+
+======================================================*/
