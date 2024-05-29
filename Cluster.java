@@ -41,6 +41,7 @@ public class Cluster implements Cluster_Interface {
 
     public void set_image_cluster(ArrayList<Image> cluster) {
         this.cluster = cluster;
+        centroidNeedsUpdate = true;
     }
 
     // Calculate centroid if needed

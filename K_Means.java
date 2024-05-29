@@ -124,7 +124,6 @@ public class K_Means {
         return num_swaps;
     }
 
-
     public static void k_means(Image[] images, int max_steps){
         initialize_centroids(images);
         if (updates){
@@ -145,6 +144,7 @@ public class K_Means {
 
             num_updates = reclassify(images);
             num_cycles++;
+            System.out.println(num_updates + " images changed");
 
         } while (num_updates > 0 && (num_cycles < max_steps));
         if (updates){
