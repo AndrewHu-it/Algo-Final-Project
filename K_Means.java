@@ -4,6 +4,7 @@ import java.util.Random;
 import java.lang.Math;
 
 
+
 public class K_Means {
 
     /*
@@ -108,10 +109,6 @@ public class K_Means {
 
             }
 
-            if (updates){
-                System.out.println("Images from cluster " + i + "  reclassified");
-            }
-
         }
 
         for (int i = 0; i < new_image_clusters.size(); i ++){
@@ -144,9 +141,11 @@ public class K_Means {
 
             num_updates = reclassify(images);
             num_cycles++;
-            System.out.println(num_updates + " images changed");
+            if(updates){
+                System.out.println(num_updates + " images changed");
+            }
 
-        } while (num_updates > 0 && (num_cycles < max_steps));
+        } while (num_updates > 2 && (num_cycles < max_steps));
         if (updates){
             System.out.println("We itereated k means " + num_cycles + " times");
         }
@@ -203,7 +202,7 @@ public class K_Means {
 
 
     public static void user_classify(){
-        Image[] centroids = new Image[10];
+        Image[] centroids = new Image[clusters.size()];
         for (int i = 0; i < clusters.size(); i++){
             centroids[i] = clusters.get(i).centroid();
         }
@@ -236,6 +235,19 @@ public class K_Means {
 
 
 
+
+
+    public static Image[] optimize_images(Image[] images) {
+        
+    }
+
+
+
+
+
+
+
+
     public static void main(String[] args) throws IOException {
         int max_steps = 100;
 
@@ -258,6 +270,9 @@ public class K_Means {
                     break;
                 case "-STEPS":
                     max_steps = Integer.parseInt(args[++i]);
+                    if (max_steps == -1){
+                        max_steps = 1000;
+                    }
                     break;
                 case "-K":
                     k = Integer.parseInt(args[++i]);
@@ -279,6 +294,17 @@ public class K_Means {
             }
 
         }
+        //THINGS TO DO:
+        //--Fix centroid intialization process --- Make the K DIfferent process
+        //--Integrate dynamic clusters (increase number if it is different enough, but we should set a cap for the number of different ones)
+        //-- Figure out the proper output of the project, I think there is something about reading out files
+
+        //Improve the accuracy:
+        // 1. We can do analysis to figure out the best value of K based on LS of all the different clusters, try to minimize this
+        // 2. Improve the image set, method above which can do this.
+
+
+
 
 
         for (int i = 0; i < k; i++) {
@@ -288,6 +314,7 @@ public class K_Means {
 
         //Read the images
         Image[] images = Image.readImages("train-images");
+        images = optimize_images(images);
 
 
         //Works, but very poorly
@@ -396,15 +423,8 @@ public class K_Means {
 
 
 
-
-
     private static void KD_centroid_intialization(Image[] images) {
-        //TODO:
-        /*
-        * We need to figure out some good method that will make the centroids as different as possible to start with.
-        * */
-
-
+       //TODO
     }
 
 
