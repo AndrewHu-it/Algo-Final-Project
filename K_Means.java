@@ -43,7 +43,7 @@ public class K_Means {
 
 
     public enum DistanceType {HAMMING, MANHATTAN, EUCLIDEAN, COSINE, L3 }
-    public enum Centroid_Type {K_RANDOM, K_DIFFERENT}
+    public enum Centroid_Type {K_RANDOM, K_DIFFERENT,K_PP}
 
 
 
@@ -56,8 +56,8 @@ public class K_Means {
 
 
 
-    public static final int TEST_SEED = 100;
-    public static Random random = new Random(TEST_SEED);
+    public static final int TEST_SEED = 3;
+    public static Random random = new Random();
     public static double random() { return random.nextDouble(); } // In range [0.0, 1.0)
 
 
@@ -123,6 +123,8 @@ public class K_Means {
 
     public static void k_means(Image[] images, int max_steps){
         initialize_centroids(images);
+
+
         if (updates){
             System.out.println("Centroid Initialization has just been completed");
         }
@@ -175,6 +177,7 @@ public class K_Means {
         switch(centroid_type){
             case K_RANDOM: KR_centroid_intialization(images); break;
             case K_DIFFERENT: KD_centroid_intialization(images); break;
+            case K_PP: K_PP_centroid_initialization(images); break;
         }
     }
 
@@ -236,18 +239,6 @@ public class K_Means {
 
 
 
-
-    public static Image[] optimize_images(Image[] images) {
-        
-    }
-
-
-
-
-
-
-
-
     public static void main(String[] args) throws IOException {
         int max_steps = 100;
 
@@ -283,6 +274,9 @@ public class K_Means {
                 case "-K_DIFFERENT":
                     centroid_type = Centroid_Type.K_DIFFERENT;
                     break;
+                case "-K_PP":
+                    centroid_type = Centroid_Type.K_PP;
+                    break;
                 case "-DYNAMIC":
                     dynamic = true;
                     break;
@@ -294,27 +288,23 @@ public class K_Means {
             }
 
         }
-        //THINGS TO DO:
-        //--Fix centroid intialization process --- Make the K DIfferent process
-        //--Integrate dynamic clusters (increase number if it is different enough, but we should set a cap for the number of different ones)
-        //-- Figure out the proper output of the project, I think there is something about reading out files
-
-        //Improve the accuracy:
-        // 1. We can do analysis to figure out the best value of K based on LS of all the different clusters, try to minimize this
-        // 2. Improve the image set, method above which can do this.
 
 
 
+        //THINGS THAT REALLY NEED TO BE DONE:
+        //Complete final optimization methods (centroid, guassian blur etc) and make sure you understand them.
+        //-- Figure out which settings are the best (distancem metric, steps)
+                //--The larger the K the better the accuracy. Use a really large K and see how high you can get the accuracy so we can take a nice SS :)
+        //Figure out the file output, I think he has specific output format with files.
 
 
         for (int i = 0; i < k; i++) {
-
             clusters.add(new Cluster());
         }
 
         //Read the images
         Image[] images = Image.readImages("train-images");
-        images = optimize_images(images);
+        //images = optimize_images(images);
 
 
         //Works, but very poorly
@@ -333,10 +323,6 @@ public class K_Means {
 
 
     }
-
-
-
-
 
 
 
@@ -421,11 +407,91 @@ public class K_Means {
         }
     }
 
+    public static void K_PP_centroid_initialization(Image[] images) {
+        ArrayList<Integer> chosenNumbers = new ArrayList<>();
+        Image[] centroids = new Image[k];
 
+        //First we have to choose a cetner at random.
+        int randomIndex = random.nextInt(images.length);
+        chosenNumbers.add(randomIndex);
+        centroids[0] = images[randomIndex];
 
-    private static void KD_centroid_intialization(Image[] images) {
-       //TODO
+        //distnces
+        double[] distances = new double[images.length];
+        for (int i = 0; i < images.length; i++) {
+            distances[i] = Double.MAX_VALUE;
+        }
+        distances[randomIndex] = 0;
+
+        //loop for other centroids
+        for (int clusterNum = 1; clusterNum < k; clusterNum++) {
+            double totalDistance = 0;
+
+            //d(x) for all images
+            for (int i = 0; i < images.length; i++) {
+                if (!chosenNumbers.contains(i)) {
+                    double minDistance = Double.MAX_VALUE;
+
+                    //find the minimum distance to all of the already made centroids
+                    for (int chosenIndex : chosenNumbers) {
+                        double distance = calculate_distance(images[i], images[chosenIndex]);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                        }
+                    }
+                    distances[i] = minDistance * minDistance;
+                    totalDistance += distances[i];
+                }
+            }
+
+            // probability distrubution, and select some area under the curve --> cumulative probability distribution x (integral of PDF)
+            double[] cumulativeProbabilities = new double[images.length];
+            cumulativeProbabilities[0] = distances[0] / totalDistance;
+            for (int i = 1; i < images.length; i++) {
+                cumulativeProbabilities[i] = cumulativeProbabilities[i - 1] + (distances[i] / totalDistance);
+            }
+
+            //based on the distrubution, it selects the next centroid
+            double randomValue = random.nextDouble();
+            for (int i = 0; i < images.length; i++) {
+                if (randomValue < cumulativeProbabilities[i] && !chosenNumbers.contains(i)) {
+                    chosenNumbers.add(i);
+                    centroids[clusterNum] = images[i];
+                    break;
+                }
+            }
+        }
+
+        clusters.clear();
+        for (Image centroid : centroids) {
+            Cluster c = new Cluster(centroid);
+            clusters.add(c);
+        }
     }
 
+    private static void KD_centroid_intialization(Image[] images) {
+        throw new RuntimeException("This method is not done yet");
+        //TODO
+    }
+
+
+    public static Image[] optimize_images(Image[] images) {
+        for (int i = 0; i < images.length; i++) {
+            images[i] = normalizeImage(images[i]);// 58.3%
+            images[i] = applyGaussianBlur(images[i]); //63%
+
+        }
+        return images;
+    }
+
+    private static Image normalizeImage(Image image) {
+        //TODO
+        return image;
+    }
+
+    private static Image applyGaussianBlur(Image image) {
+       //TODO
+        return image;
+    }
 
 }

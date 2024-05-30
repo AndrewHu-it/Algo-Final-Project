@@ -1,0 +1,9 @@
+10 Clusters, Euclidean, Random Centroids, 100 iterations: 59.3%
+
+30 Clusters, Euclidean, Random Centroids, 100 iterations: 75.83%
+
+
+30 Clusters, Euclidean, Probability random centroids, 100 iterations, image blurring: 79.5%
+
+-l3 -steps 100 -k 30 -updates -k_pp: 73.8%
+
