@@ -219,7 +219,7 @@ public class K_Means {
 
     }
 
-    public static double percentage_accuracy(Image[] images, String filename){
+    public static double percentage_accuracy(Image[] images, String filename, ArrayList<Image> incorrect_images){
         int[] answers = new int[0];
         try{
             answers = Image.readLabels(filename);
@@ -231,6 +231,8 @@ public class K_Means {
         for (int i = 0; i < images.length; i ++){
             if (answers[i] == images[i].label()){
                 numCorrect++;
+            } else {
+                incorrect_images.add(images[i]);
             }
         }
         return numCorrect/(double)total;
@@ -314,12 +316,35 @@ public class K_Means {
         //User labels
         user_classify();
 
+        ArrayList<Image> missed_images_AL = new ArrayList<>();
 
-        double accuracy = percentage_accuracy(images, "train-labels");
+        double accuracy = percentage_accuracy(images, "train-labels", missed_images_AL);
         System.out.println(accuracy);
 
+        //Now we need to get the array of all of the images that we missed.
+        Image[] missed_images_array = missed_images_AL.toArray(new Image[0]);
+        Image[] centroids = new Image[k];
+        for (int i = 0; i < clusters.size(); i ++){
+            Image centroid = clusters.get(i).centroid();
+            centroids[i] = centroid;
+        }
 
-        //TODO: File output:
+
+        Image.writeLabels(centroids, "centroid-labels");
+        Image.writeImages(centroids, "centroid-images");
+
+        Image.writeLabels(missed_images_array,"incorrect-labels");
+        Image.writeImages(missed_images_array, "incorrect-images");
+
+        for (int i = 0; i < k; i++){
+            String cluster_name = "cluster" + i +"-images";
+            //now  get the cluster of images from the particular clsuter;
+            Cluster current = clusters.get(i);
+            Image[] cluster = current.get_cluster().toArray(new Image[0]);
+            Image.writeImages(cluster,cluster_name);
+        }
+
+
 
 
     }
